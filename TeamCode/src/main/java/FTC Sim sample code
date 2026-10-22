@@ -1,0 +1,49 @@
+public class MyFIRSTJavaOpMode extends LinearOpMode {
+	DcMotor motorLeft;
+	DcMotor motorRight;
+	DcMotor frontLeft;
+	DcMotor frontRight;
+	ColorSensor color1;
+	DistanceSensor distance1;
+	BNO055IMU imu;
+
+	@Override
+	public void runOpMode() {
+		motorLeft = hardwareMap.get(DcMotor.class, "motorLeft");
+		motorRight = hardwareMap.get(DcMotor.class, "motorRight");
+		frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+		frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+		color1 = hardwareMap.get(ColorSensor.class, "color1");
+		distance1 = hardwareMap.get(DistanceSensor.class, "distance1");
+		imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+		// Put initialization blocks here
+		waitForStart();
+		// Put run blocks here
+		motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        private int loopCount = 1;
+
+		while (opModeIsActive()) {
+			// Put loop blocks here
+            telemetry.addData("Loop Count", loopCount);
+            loopCount++;
+            turningACorner();
+		}
+//drp
+        public void turningACorner() [
+            leftDrive.setPower(1);
+            rightDrive.setPower(1);
+            sleep(1000);
+            leftDrive.setPower(0);
+            rightDrive.setPower(0);
+            sleep(10);
+            leftDrive.setPower(-1);
+            rightDrive.setPower(1);
+            sleep(500);
+            leftDrive.setPower(0);
+            rightDrive.setPower(0);
+        ]
+	}
+
+
+}
