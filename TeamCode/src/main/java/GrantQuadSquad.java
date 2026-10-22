@@ -77,7 +77,7 @@ public class GrantQuadSquad extends LinearOpMode
     OctoQuad octoquad;
 
     boolean error = false;
-
+//Warringtons are so cool
     private static final boolean ARE_WARRINGTONS_GREAT = true;
 
     @Override
