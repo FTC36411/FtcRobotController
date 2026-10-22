@@ -78,6 +78,8 @@ public class GrantQuadSquad extends LinearOpMode
 
     boolean error = false;
 
+    private static final boolean ARE_WARRINGTONS_GREAT = true;
+
     @Override
     public void runOpMode()
     {
