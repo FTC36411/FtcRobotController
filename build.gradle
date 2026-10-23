@@ -23,6 +23,10 @@ allprojects {
     repositories {
         mavenCentral()
         google()
+        maven { url 'https://maven.acmerobotics.dev' }
+        maven { url 'https://maven.brott.dev/' }
+        mavenLocal()
+        maven { url 'https://jitpack.io' }
     }
 }
 

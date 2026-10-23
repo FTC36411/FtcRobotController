@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.AAAOpModes;
 
-import static org.firstinspires.ftc.teamcode.BioBuzzVision.Subsystems.Constants.cx;
-import static org.firstinspires.ftc.teamcode.BioBuzzVision.Subsystems.Constants.cy;
-import static org.firstinspires.ftc.teamcode.BioBuzzVision.Subsystems.Constants.fx;
-import static org.firstinspires.ftc.teamcode.BioBuzzVision.Subsystems.Constants.fy;
+import static org.firstinspires.ftc.teamcode.Subsystems.Constants.cx;
+import static org.firstinspires.ftc.teamcode.Subsystems.Constants.cy;
+import static org.firstinspires.ftc.teamcode.Subsystems.Constants.fx;
+import static org.firstinspires.ftc.teamcode.Subsystems.Constants.fy;
 
 import android.util.Size;
 
@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.BioBuzzVision.Utilities.Vision.BioBuzzProcessor;
+import org.firstinspires.ftc.teamcode.Utilities.Vision.BioBuzzProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
