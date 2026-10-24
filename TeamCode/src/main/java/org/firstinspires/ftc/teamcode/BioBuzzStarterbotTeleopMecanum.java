@@ -1,7 +1,18 @@
+
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+/**
+ * This is the starter TeleOp code that came with the starter bot.
+ *
+ * This code was pulled from GoBilda and optimized to use RobotHardware.java.
+ *
+ * The code can be downloaded from this link:
+ * www.gobilda.com/content/downloads/3200-2627-0004_example-code.zip
+ */
 
 @TeleOp(name = "Mec BioBuzz StarterBot Teleop", group = "StarterBot")
 public class BioBuzzStarterbotTeleopMecanum extends OpMode {

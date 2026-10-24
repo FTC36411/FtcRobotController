@@ -7,6 +7,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+/**
+ * Modified StarterBot TeleOp with different controls and features.
+ * Created based on {@link BioBuzzStarterbotTeleopMecanum}
+ *
+ */
 @TeleOp(name = "Modified Teleop with Dpad Presets", group = "StarterBot")
 public class StarterbotTeleopWithMods extends OpMode {
     private final RobotHardware robot = new RobotHardware();

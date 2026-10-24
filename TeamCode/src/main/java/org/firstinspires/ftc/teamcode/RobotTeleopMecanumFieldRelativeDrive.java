@@ -1,3 +1,6 @@
+
+
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -6,6 +9,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
+/**
+ * This code has been taken from the samples folder, {@link RobotTeleopMecanumFieldRelativeDrive}
+ * This code includes basic movement of the robot chassis with one controller
+ */
 
 @TeleOp(name = "Robot: Field Relative Mecanum Drive", group = "Robot")
 //@Disabled

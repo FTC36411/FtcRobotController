@@ -5,6 +5,12 @@ import static android.os.SystemClock.sleep;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+/**
+ * Basic robot autonomous code.
+ * Moves forward, moves backward, and shoots balls.
+ * Shoots 4 balls into the hive and gains 8 scoring points
+ */
+
 @Autonomous(name = "Shoot Balls")
 public class ShooterAutonomous extends OpMode {
     private final RobotHardware robot = new RobotHardware();
