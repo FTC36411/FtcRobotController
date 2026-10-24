@@ -11,6 +11,27 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Modified StarterBot TeleOp with different controls and features.
  * Created based on {@link BioBuzzStarterbotTeleopMecanum}
  *
+ * <h2>Controls Mapping Summary:</h2>
+ * <ul>
+ *   <li><b>Gamepad 1 (Drivetrain & Behavior):</b>
+ *     <ul>
+ *       <li>Left Stick Y/X & Right Stick X: Mecanum Drive (Movement, Strafe, Rotation)</li>
+ *       <li>X Button: Set Drive Zero Power Behavior to BRAKE</li>
+ *       <li>Y / Triangle Button: Set Drive Zero Power Behavior to FLOAT</li>
+ *     </ul>
+ *   </li>
+ *   <li><b>Gamepad 2 (Intake, Launcher & Feeder):</b>
+ *     <ul>
+ *       <li>X Button: Toggle Intake Direction (Forward / Reverse)</li>
+ *       <li>Y / Triangle Button: Run Main Intake Motor (Broom)</li>
+ *       <li>Left / Right Bumpers: Run Left / Right Intake Servos</li>
+ *       <li>D-pad Up/Right/Down/Left: Launcher Velocity Presets (High: 1500, Med: 1250, Low: 1000, Off: 0)</li>
+ *       <li>Left Trigger / Left Bumper: Activate Launcher Flywheel (modulated by Left Stick Y)</li>
+ *       <li>Right Trigger / Right Bumper: Feed Game Piece via Windmill Servo (when launcher is spun up)</li>
+ *     </ul>
+ *   </li>
+ * </ul>
+ * <p>See CONTROLS_MAPPING.md for full details.</p>
  */
 @TeleOp(name = "Modified Teleop", group = "StarterBot")
 public class StarterbotTeleopWithMods extends OpMode {
@@ -41,26 +62,16 @@ public class StarterbotTeleopWithMods extends OpMode {
         // 1. Mecanum Drive (Driver 1)
         mecanumDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
-        // 2. Intake & Broom Control (Operator / Driver 2)
-        double powerState = (gamepad2.x) ? -1.0 : 1.0;
+        // 2. Intake Control (Operator / Driver 2)
         double intakePower = 0.0;
-        
-        if (gamepad2.y || gamepad2.triangle) {
-            intakePower = powerState;
+        if (gamepad2.x) {
+            intakePower = 1.0;  // Intake Forward
+        } else if (gamepad2.y || gamepad2.triangle) {
+            intakePower = -1.0; // Intake Backwards
         }
         robot.setBroomPower(intakePower);
-
-        if (gamepad2.left_bumper) {
-            robot.setLeftIntakeServoPower(powerState);
-        } else {
-            robot.setLeftIntakeServoPower(0);
-        }
-
-        if (gamepad2.right_bumper) {
-            robot.setRightIntakeServoPower(powerState);
-        } else {
-            robot.setRightIntakeServoPower(0);
-        }
+        robot.setLeftIntakeServoPower(intakePower);
+        robot.setRightIntakeServoPower(intakePower);
 
         // 3. Zero Power Behavior Controls (Driver 1)
         if (gamepad1.x) {
@@ -124,20 +135,23 @@ public class StarterbotTeleopWithMods extends OpMode {
             currentLauncherTargetVelocity = VELOCITY_OFF;
         }
 
-        // Use left trigger or left bumper to activate launcher
+        // Left joystick changes flywheel speed / throttle modifier
+        double velocityModifier = normalisedYValues(gamepad2.left_stick_y);
+
+        // Left trigger or left bumper activates launcher
         boolean launcherActive = (gamepad2.left_trigger > 0.3) || gamepad2.left_bumper;
 
-        double velocityModifier = normalisedYValues(gamepad2.left_stick_y);
         double targetVelocity = launcherActive ? (currentLauncherTargetVelocity * velocityModifier) : 0;
         
         robot.setLauncherVelocity(targetVelocity);
 
-        // Windmill feeder control
-        boolean rightTriggerActive = (gamepad2.right_trigger > 0.3) || gamepad2.right_bumper;
+        // Windmill servo control: right joystick changes windmill servo speed, enabled by right trigger or right bumper
+        boolean rightControlActive = (gamepad2.right_trigger > 0.3) || gamepad2.right_bumper;
         double currentVelocity = robot.getLauncherVelocity();
 
-        if (launcherActive && currentVelocity >= (currentLauncherTargetVelocity - LAUNCHER_MIN_THRESHOLD) && currentLauncherTargetVelocity > 0) {
-            robot.setWindmillPower(rightTriggerActive ? 1.0 : 0.0);
+        if (launcherActive && currentVelocity >= (currentLauncherTargetVelocity - LAUNCHER_MIN_THRESHOLD) && currentLauncherTargetVelocity > 0 && rightControlActive) {
+            double windmillSpeed = -gamepad2.right_stick_y;
+            robot.setWindmillPower(windmillSpeed);
         } else {
             robot.setWindmillPower(0.0);
         }
