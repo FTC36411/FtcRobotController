@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Created based on {@link BioBuzzStarterbotTeleopMecanum}
  *
  */
-@TeleOp(name = "Modified Teleop with Dpad Presets", group = "StarterBot")
+@TeleOp(name = "Modified Teleop", group = "StarterBot")
 public class StarterbotTeleopWithMods extends OpMode {
     private final RobotHardware robot = new RobotHardware();
 
