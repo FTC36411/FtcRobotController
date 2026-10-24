@@ -21,7 +21,7 @@ public final class RobotHardwareNames {
     // Intake & Launcher Hardware
     public static final String INTAKE = "broom";
     public static final String LAUNCHER = "launcher";
-    public static final String WINDMILL_SERVO = "ballRotator";
+    public static final String WINDMILL_SERVO = "ballrotator";
     public static final String LEFT_INTAKE_SERVO = "leftIntakeServo";
     public static final String RIGHT_INTAKE_SERVO = "rightIntakeServo";
 
