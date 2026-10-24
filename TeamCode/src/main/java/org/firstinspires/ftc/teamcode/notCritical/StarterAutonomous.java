@@ -1,9 +1,17 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.notCritical;
 
 import static android.os.SystemClock.sleep;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
+import org.firstinspires.ftc.teamcode.RobotHardware;
+
+/**
+ * Basic robot autonomous code.
+ * Moves forward, and moves backward.
+ * Gains 8 scoring points
+ */
 
 @Autonomous (name = "MoveForwardAndBack")
 public class StarterAutonomous extends OpMode {

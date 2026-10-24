@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utilities.Telemetry;
+package org.firstinspires.ftc.teamcode.notCritical.Utilities.Telemetry;
 
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 

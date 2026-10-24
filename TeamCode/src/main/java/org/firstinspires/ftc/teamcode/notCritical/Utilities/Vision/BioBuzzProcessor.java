@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utilities.Vision;
+package org.firstinspires.ftc.teamcode.notCritical.Utilities.Vision;
 
 import static org.opencv.core.Core.inRange;
 import static org.opencv.core.CvType.CV_8U;

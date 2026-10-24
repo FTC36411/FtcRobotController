@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.notCritical;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -7,6 +7,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.RobotHardware;
+
+/**
+ * This is the starter Autonomus code that came with the starter **Arcade Drive** bot.
+ *
+ * This code was pulled from GoBilda and optimized for Mecanum drive and to use RobotHardware.java.
+ *
+ * The Arcade drive version of this code can be downloaded from this link:
+ * https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip
+ */
 
 @Autonomous(name="StarterBotAuto (Mecanum)", group="StarterBot")
 public class StarterBotAuto extends OpMode {
