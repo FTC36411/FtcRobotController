@@ -12,10 +12,10 @@ public final class RobotHardwareNames {
     private RobotHardwareNames() {}
 
     // Mecanum Drivetrain Motors
-    public static final String LEFT_FRONT_DRIVE = "frontLeft";
-    public static final String RIGHT_FRONT_DRIVE = "frontRight";
-    public static final String LEFT_BACK_DRIVE = "backLeft";
-    public static final String RIGHT_BACK_DRIVE = "backRight";
+    public static final String LEFT_FRONT_DRIVE = "leftFront";
+    public static final String RIGHT_FRONT_DRIVE = "rightFront";
+    public static final String LEFT_BACK_DRIVE = "leftBack";
+    public static final String RIGHT_BACK_DRIVE = "rightBack";
 
 
     // Intake & Launcher Hardware
