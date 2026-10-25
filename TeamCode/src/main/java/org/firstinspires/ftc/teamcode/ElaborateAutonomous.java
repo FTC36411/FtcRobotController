@@ -22,10 +22,10 @@ public class ElaborateAutonomous extends OpMode {
         //shoots balls from the position
         robot.setWindmillPower(1);
         robot.setLauncherVelocity(LAUNCHER_TARGET_VELOCITY);
-        sleep(10000);
+        sleep(3000);
 
         //moves the robot forward
-        robot.setDrivePower(-1.0, -1.0, -1.0, -1.0);
+        robot.setDrivePower(1.0, -1.0, -1.0, -1.0);
         sleep(500);
         robot.setDrivePower(0, 0, 0, 0);
         sleep(500);
@@ -34,6 +34,8 @@ public class ElaborateAutonomous extends OpMode {
         robot.setDrivePower(1.0, 1.0, 1.0, 1.0);
         sleep(700);
         robot.setDrivePower(0, 0, 0, 0);
+
+
 
         stop();
 
