@@ -26,7 +26,6 @@ public class ElaborateAutonomous extends OpMode {
     @Override
     public void start() {
         //shoots balls from the position
-        robot.setWindmillPower(1);
         robot.setLauncherVelocity(LAUNCHER_TARGET_VELOCITY);
         while (robot.getLauncherVelocity() < LAUNCHER_MIN_VELOCITY) {
             if (robot.getLauncherVelocity() >= LAUNCHER_MIN_VELOCITY) {
