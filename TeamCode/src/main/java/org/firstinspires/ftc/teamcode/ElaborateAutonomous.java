@@ -30,8 +30,14 @@ public class ElaborateAutonomous extends OpMode {
         robot.setWindmillPower(1.0);
         sleep(3000);
 
+        //collects pollen from flower
+        robot.setDrivePower(-1.0, -1.0, -1.0, -1.0);
+        sleep(500);
+        robot.setDrivePower(0, 0, 0, 0);
+        sleep(500);
+
         //moves the robot forward
-        robot.setDrivePower(1.0, -1.0, -1.0, -1.0);
+        robot.setDrivePower(-1.0, -1.0, -1.0, -1.0);
         sleep(500);
         robot.setDrivePower(0, 0, 0, 0);
         sleep(500);
