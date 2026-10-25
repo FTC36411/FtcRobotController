@@ -3,6 +3,12 @@ package org.firstinspires.ftc.teamcode;
 import static android.os.SystemClock.sleep;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+/**
+ * Simple autonomous code
+ * uses pollen that is in the transition, and pollen in the flower and shoots it to the hive
+ * parks back into starting position
+ * gets 40 points from tipping the hive twice, and gets 8 swarm points
+ */
 
 public class ElaborateAutonomous extends OpMode {
     private final RobotHardware robot = new RobotHardware();
