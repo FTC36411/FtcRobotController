@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
 /**
- * Field-Relative TeleOp for the StarterBot with controls matching BioBuzzStarterbotTeleopMecanum.
+ * Field-Relative TeleOp for the StarterBot with controls matching {@link BioBuzzStarterbotTeleopMecanum}.
  */
 @TeleOp(name = "Field Relative StarterBot Teleop", group = "StarterBot")
 public class StarterbotFieldRelativeTeleop extends OpMode {
