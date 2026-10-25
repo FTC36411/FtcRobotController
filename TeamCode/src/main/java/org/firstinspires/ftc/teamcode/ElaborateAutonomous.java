@@ -3,6 +3,12 @@ package org.firstinspires.ftc.teamcode;
 import static android.os.SystemClock.sleep;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+/**
+ * Simple autonomous code
+ * uses pollen that is in the transition, and pollen in the flower and shoots it to the hive
+ * parks back into starting position
+ * gets 40 points from tipping the hive twice, and gets 8 swarm points
+ */
 
 public class ElaborateAutonomous extends OpMode {
     private final RobotHardware robot = new RobotHardware();
@@ -20,9 +26,20 @@ public class ElaborateAutonomous extends OpMode {
     @Override
     public void start() {
         //shoots balls from the position
-        robot.setWindmillPower(1);
         robot.setLauncherVelocity(LAUNCHER_TARGET_VELOCITY);
-        sleep(10000);
+        while (robot.getLauncherVelocity() < LAUNCHER_MIN_VELOCITY) {
+            if (robot.getLauncherVelocity() >= LAUNCHER_MIN_VELOCITY) {
+                break;
+            }
+        }
+        robot.setWindmillPower(1.0);
+        sleep(3000);
+
+        //collects pollen from flower
+        robot.setDrivePower(-1.0, -1.0, -1.0, -1.0);
+        sleep(500);
+        robot.setDrivePower(0, 0, 0, 0);
+        sleep(500);
 
         //moves the robot forward
         robot.setDrivePower(-1.0, -1.0, -1.0, -1.0);
@@ -34,6 +51,8 @@ public class ElaborateAutonomous extends OpMode {
         robot.setDrivePower(1.0, 1.0, 1.0, 1.0);
         sleep(700);
         robot.setDrivePower(0, 0, 0, 0);
+
+
 
         stop();
 
