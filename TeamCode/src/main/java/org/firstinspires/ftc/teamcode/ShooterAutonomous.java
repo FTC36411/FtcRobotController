@@ -34,13 +34,13 @@ public class ShooterAutonomous extends OpMode {
         sleep(10000);
 
         //moves the robot forward
-        robot.setDrivePower(-1.0, -1.0, -1.0, -1.0);
+        robot.setDrivePower(1.0, 1.0, 1.0, 1.0);
         sleep(500);
         robot.setDrivePower(0, 0, 0, 0);
         sleep(500);
 
         //moves the robot back to park
-        robot.setDrivePower(1.0, 1.0, 1.0, 1.0);
+        robot.setDrivePower(-1.0, -1.0, -1.0, -1.0);
         sleep(700);
         robot.setDrivePower(0, 0, 0, 0);
 
