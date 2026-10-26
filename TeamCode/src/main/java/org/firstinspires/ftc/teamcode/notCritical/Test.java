@@ -14,6 +14,8 @@ public class Test extends OpMode {
         telemetry.addData("Hello", "User");
     }
 
+    public void start() {}
+
     @Override
     public void loop(){
 
