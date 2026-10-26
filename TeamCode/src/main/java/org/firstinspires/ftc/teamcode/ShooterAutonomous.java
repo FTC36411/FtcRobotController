@@ -28,10 +28,13 @@ public class ShooterAutonomous extends OpMode {
 
     @Override
     public void start() {
-        //shoots balls from the position
-        robot.setWindmillPower(1);
+        // Shoots balls from the position
         robot.setLauncherVelocity(LAUNCHER_TARGET_VELOCITY);
+        // Wait until the launcher reaches the minimum velocity
+        while (robot.getLauncherVelocity() < LAUNCHER_MIN_VELOCITY) {}
+        robot.setWindmillPower(1.0);
         sleep(10000);
+        //waitUntil(robot.getLauncherVelocity() < LAUNCHER_MIN_VELOCITY);
 
         //moves the robot forward
         robot.setDrivePower(-1.0, -1.0, -1.0, -1.0);
