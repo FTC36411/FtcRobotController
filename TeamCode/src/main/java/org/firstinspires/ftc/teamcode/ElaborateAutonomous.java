@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import static android.os.SystemClock.sleep;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 /**
  * Simple autonomous code
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
  * gets 40 points from tipping the hive twice, and gets 8 swarm points
  */
 
+@Autonomous
 public class ElaborateAutonomous extends OpMode {
     private final RobotHardware robot = new RobotHardware();
     public final int LAUNCHER_TARGET_VELOCITY = 1250; //2678 RPM
@@ -45,13 +47,14 @@ public class ElaborateAutonomous extends OpMode {
                 state = State.SHOOT_BALLS;
                 break;
             case SHOOT_BALLS:
-                //shoots balls from the position
+                // Shoots balls from the position
                 robot.setLauncherVelocity(LAUNCHER_TARGET_VELOCITY);
+
+                // Wait until the launcher reaches the minimum velocity
                 while (robot.getLauncherVelocity() < LAUNCHER_MIN_VELOCITY) {
-                    if (robot.getLauncherVelocity() >= LAUNCHER_MIN_VELOCITY) {
-                        break;
-                    }
+                    sleep(1);
                 }
+
                 robot.setWindmillPower(1.0);
                 sleep(3000);
                 state = State.LEAVE_STARTING_POSITION;

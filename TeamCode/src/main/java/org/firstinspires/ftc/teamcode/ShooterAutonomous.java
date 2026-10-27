@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
  * Shoots 4 balls into the hive and gains 8 scoring points
  */
 
-@Autonomous(name = "Shoot Balls")
+@Autonomous(name = "Scrimmage Auto")
 public class ShooterAutonomous extends OpMode {
     private final RobotHardware robot = new RobotHardware();
 
@@ -28,13 +28,18 @@ public class ShooterAutonomous extends OpMode {
 
     @Override
     public void start() {
-        // Shoots balls from the position
+        /*Shoots balls from the position*/
         robot.setLauncherVelocity(LAUNCHER_TARGET_VELOCITY);
-        // Wait until the launcher reaches the minimum velocity
+        /*Wait until the launcher reaches the minimum velocity*/
         while (robot.getLauncherVelocity() < LAUNCHER_MIN_VELOCITY) {}
         robot.setWindmillPower(1.0);
         sleep(10000);
         //waitUntil(robot.getLauncherVelocity() < LAUNCHER_MIN_VELOCITY);
+
+        /*stops motors*/
+        robot.setLauncherVelocity(0);
+        robot.setWindmillPower(0);
+
 
         //moves the robot forward
         robot.setDrivePower(-1.0, -1.0, -1.0, -1.0);
@@ -46,9 +51,6 @@ public class ShooterAutonomous extends OpMode {
         robot.setDrivePower(1.0, 1.0, 1.0, 1.0);
         sleep(700);
         robot.setDrivePower(0, 0, 0, 0);
-
-        stop();
-
     }
 
     @Override
