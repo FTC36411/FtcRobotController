@@ -30,7 +30,7 @@ This document provides the complete control mapping for the [`StarterbotTeleopWi
 | Control | Action / Function | Description |
 | :--- | :--- | :--- |
 | **Left Stick Y** (`left_stick_y`) | Change Flywheel Speed | Modulates/scales the target launcher velocity. |
-| **Left Bumper** (` `gamepad2.left_bumper`) | Activate Launcher | Turns on the launcher flywheel. |
+| **Left Bumper** (`gamepad2.left_bumper`) | Activate Launcher | Turn on the launcher flywheel. |
 
 | **Right  Bumper** (` `gamepad2.right_bumper`) | Activate Launcher | Turns on the launcher flywheel. |
 | **D-pad Up** (`gamepad2.dpad_up`) | High Speed Preset | Sets target launcher velocity to 1500 ticks/sec. |
