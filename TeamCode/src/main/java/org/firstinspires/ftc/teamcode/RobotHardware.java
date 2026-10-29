@@ -158,7 +158,14 @@ public class RobotHardware {
      * @return robot heading (degrees)
      */
     public double getHeading() {
-        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        double angle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        while (angle > 180) {
+            angle -= 360; // subtract until in target range
+        }
+        while (angle <= -180) {
+            angle += 360; // add until in target range
+        }
+        return angle;
     }
 
     /**
