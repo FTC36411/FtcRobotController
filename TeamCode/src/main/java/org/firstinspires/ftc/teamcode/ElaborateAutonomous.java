@@ -67,12 +67,15 @@ public class ElaborateAutonomous extends OpMode {
             case COLLECT_POLLEN_FROM_FLOWER:
                 //collects pollen from flower
                 robot.mecanumDrive(0.0, -1.0, 0.0, 0.3);
+                robot.setIntakePower(1.0);
                 robot.mecanumDrive(1.0, 0.0, 0.0, 0.5);
-
                 state = State.MOVE_TO_OTHER_SIDE;
                 break;
             case MOVE_TO_OTHER_SIDE:
                 //makes the robot move to the other side of the hive
+                robot.mecanumDrive(-1.0,1.0,0.0,0.5);
+                robot.mecanumDrive(-1.0,0.0,0.0,1.0);
+                robot.mecanumDrive(0.0,0.0,);
                 state = State.SHOOT_BALLS_AFTER_TIP;
                 break;
             case SHOOT_BALLS_AFTER_TIP:
