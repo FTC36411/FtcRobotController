@@ -116,12 +116,27 @@ public class RobotHardware {
         if (leftIntakeServo != null) leftIntakeServo.setPower(power);
         if (rightIntakeServo != null) rightIntakeServo.setPower(power);
     }
+    /**
+     * Set power to the intake motor.
+     *
+     * @param power Power level (-1.0 to 1.0).
+     */
     public void setBroomPower(double power) {
         intake.setPower(power);
     }
+    /**
+     * Set power to the left intake servo.
+     *
+     * @param power Power level (-1.0 to 1.0).
+     */
     public void setLeftIntakeServoPower(double power) {
         leftIntakeServo.setPower(power);
     }
+    /**
+     * Set power to the right intake servo.
+     *
+     * @param power Power level (-1.0 to 1.0).
+     */
     public void setRightIntakeServoPower(double power) {
         rightIntakeServo.setPower(power);
     }
