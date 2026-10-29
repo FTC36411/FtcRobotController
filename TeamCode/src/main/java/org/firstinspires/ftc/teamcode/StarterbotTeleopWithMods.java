@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 /**
  * Modified StarterBot TeleOp with different controls and features.
  * Created based on {@link BioBuzzStarterbotTeleopMecanum}
- * See {@link CONTROLS_MAPPING.md} for full details.
+ * See CONTROLS_MAPPING.md for full details.
  */
 @TeleOp(name = "Modified Teleop", group = "StarterBot")
 public class StarterbotTeleopWithMods extends OpMode {
@@ -160,7 +160,7 @@ public class StarterbotTeleopWithMods extends OpMode {
         boolean rightControlActive = (gamepad2.right_trigger > 0.3) || gamepad2.right_bumper;
         double currentVelocity = robot.getLauncherVelocity();
 
-        if (launcherActive && currentVelocity >= (currentLauncherTargetVelocity - LAUNCHER_MIN_THRESHOLD) && currentLauncherTargetVelocity > 0 && rightControlActive) {
+        if (true) {
             double windmillSpeed = -gamepad2.right_stick_y;
             robot.setWindmillPower(windmillSpeed);
         } else {
