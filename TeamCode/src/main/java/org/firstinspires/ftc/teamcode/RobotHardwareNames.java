@@ -25,4 +25,7 @@ public final class RobotHardwareNames {
     public static final String LEFT_INTAKE_SERVO = "leftIntakeServo";
     public static final String RIGHT_INTAKE_SERVO = "rightIntakeServo";
 
+    // Other
+    public static final String IMU = "imu";
+
 }

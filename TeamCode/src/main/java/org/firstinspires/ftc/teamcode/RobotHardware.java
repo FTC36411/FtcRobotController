@@ -32,6 +32,7 @@ public class RobotHardware {
     public CRServo leftIntakeServo = null;
     public CRServo rightIntakeServo = null;
     public CRServo windmillServo = null;
+    public IMU imu = null;
 
     /**
      * Initialize all hardware components from the supplied HardwareMap.
@@ -49,6 +50,7 @@ public class RobotHardware {
         windmillServo = hwMap.get(CRServo.class, RobotHardwareNames.WINDMILL_SERVO);
         leftIntakeServo = hwMap.get(CRServo.class, RobotHardwareNames.LEFT_INTAKE_SERVO);
         rightIntakeServo = hwMap.get(CRServo.class, RobotHardwareNames.RIGHT_INTAKE_SERVO);
+        imu = hwMap.get(IMU.class, RobotHardwareNames.IMU);
 
         // Motor directions
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -155,13 +157,8 @@ public class RobotHardware {
      * Gets heading of robot at current time
      * @return robot heading (degrees)
      */
-    public double getHeading(
-            //AngleUnit angleUnit
-    ) {
-        return imu.getRobotYawPitchRollAngles().getYaw(
-                //angleUnit
-                AngleUnit.DEGREES
-        );
+    public double getHeading() {
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
     }
 
     /**
