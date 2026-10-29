@@ -10,28 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 /**
  * Modified StarterBot TeleOp with different controls and features.
  * Created based on {@link BioBuzzStarterbotTeleopMecanum}
- *
- * <h2>Controls Mapping Summary:</h2>
- * <ul>
- *   <li><b>Gamepad 1 (Drivetrain & Behavior):</b>
- *     <ul>
- *       <li>Left Stick Y/X & Right Stick X: Mecanum Drive (Movement, Strafe, Rotation)</li>
- *       <li>X Button: Set Drive Zero Power Behavior to BRAKE</li>
- *       <li>Y / Triangle Button: Set Drive Zero Power Behavior to FLOAT</li>
- *     </ul>
- *   </li>
- *   <li><b>Gamepad 2 (Intake, Launcher & Feeder):</b>
- *     <ul>
- *       <li>X Button: Toggle Intake Direction (Forward / Reverse)</li>
- *       <li>Y / Triangle Button: Run Main Intake Motor (Broom)</li>
- *       <li>Left / Right Bumpers: Run Left / Right Intake Servos</li>
- *       <li>D-pad Up/Right/Down/Left: Launcher Velocity Presets (High: 1500, Med: 1250, Low: 1000, Off: 0)</li>
- *       <li>Left Trigger / Left Bumper: Activate Launcher Flywheel (modulated by Left Stick Y)</li>
- *       <li>Right Trigger / Right Bumper: Feed Game Piece via Windmill Servo (when launcher is spun up)</li>
- *     </ul>
- *   </li>
- * </ul>
- * <p>See CONTROLS_MAPPING.md for full details.</p>
+ * See {@link CONTROLS_MAPPING.md} for full details.
  */
 @TeleOp(name = "Modified Teleop", group = "StarterBot")
 public class StarterbotTeleopWithMods extends OpMode {
@@ -51,23 +30,41 @@ public class StarterbotTeleopWithMods extends OpMode {
     double leftBackPower;
     double rightBackPower;
 
+    // Turn state variables for non-blocking 180-degree turns
+    private boolean isTurning = false;
+    private double turnTargetHeading = 0.0;
+
     @Override
     public void init() {
         robot.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
+        telemetry.update();
     }
 
     @Override
     public void loop() {
-        // 1. Mecanum Drive (Driver 1)
-        mecanumDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+        // 1. Mecanum Drive & 180 Degree Turns (Driver 1)
+        if (isTurning) {
+            // Handle active turn routine (non-blocking)
+            updateTurn();
+        } else {
+            // Normal Mecanum Drive
+            mecanumDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+
+            // Check for 180 degree turn triggers
+            if (gamepad1.left_bumper) {
+                startTurn(180.0);  // Clockwise 180
+            } else if (gamepad1.right_bumper) {
+                startTurn(-180.0); // Anticlockwise 180
+            }
+        }
 
         // 2. Intake Control (Operator / Driver 2)
         double intakePower = 0.0;
-        if (gamepad2.x) {
-            intakePower = 1.0;  // Intake Forward
-        } else if (gamepad2.y || gamepad2.triangle) {
-            intakePower = -1.0; // Intake Backwards
+        if (gamepad2.left_trigger > 0.3) {
+            intakePower = 1.0;  // Intake Forward via Left Trigger
+        } else if ((gamepad2.right_trigger > 0.3) || gamepad2.triangle || gamepad2.y) {
+            intakePower = -1.0; // Intake Backwards via Right Trigger / Triangle
         }
         robot.setBroomPower(intakePower);
         robot.setLeftIntakeServoPower(intakePower);
@@ -111,6 +108,20 @@ public class StarterbotTeleopWithMods extends OpMode {
         robot.setDrivePower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
     }
 
+    void startTurn(double relativeAngleDegrees) {
+        // Placeholder for initiating a turn. If your RobotHardware exposes IMU headings,
+        // you can calculate target heading here. For a simple time-based or power-based turn:
+        isTurning = true;
+        // Example: set a constant rotation power until complete
+    }
+
+    void updateTurn() {
+        // Non-blocking turn update logic. Set rotation power and check if target is reached.
+        // Once complete, set isTurning = false;
+        // robot.setDrivePower(0, 0, 0, 0);
+        isTurning = false; // Reset placeholder
+    }
+
     void setDriveZeroPowerBehavior(DcMotor.ZeroPowerBehavior behavior) {
         robot.leftFrontDrive.setZeroPowerBehavior(behavior);
         robot.rightFrontDrive.setZeroPowerBehavior(behavior);
@@ -138,8 +149,8 @@ public class StarterbotTeleopWithMods extends OpMode {
         // Left joystick changes flywheel speed / throttle modifier
         double velocityModifier = normalisedYValues(gamepad2.left_stick_y);
 
-        // Left trigger or left bumper activates launcher
-        boolean launcherActive = (gamepad2.left_trigger > 0.3) || gamepad2.left_bumper;
+        // Launcher activation via bumpers (L1 or R1 on Gamepad 2)
+        boolean launcherActive = gamepad2.left_bumper || gamepad2.right_bumper;
 
         double targetVelocity = launcherActive ? (currentLauncherTargetVelocity * velocityModifier) : 0;
         
