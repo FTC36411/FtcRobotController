@@ -177,7 +177,7 @@ public class RobotHardware {
      * @param time time to run motors (0.0 to -.-) #TODO change to distance rather than time
      */
 
-    void mecanumDrive(double forward, double strafe, double rotate, double time) {
+    void mecanumDrive(double forward, double strafe, double rotate, Optional<double> time) {
         double leftFrontPower;
         double rightFrontPower;
         double leftBackPower;
@@ -200,7 +200,7 @@ public class RobotHardware {
         }
 
         setDrivePower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
-        sleep((long) (time > 10 ? time : time * 1000));
+        if (time.isPresent()) sleep((long) (time > 10 ? time : time * 1000));
         setDrivePower(0, 0, 0, 0);
     }
 }
