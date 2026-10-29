@@ -98,30 +98,4 @@ public class ElaborateAutonomous extends OpMode {
         telemetry.addData("Current State", state);
     }
 
-    void mecanumDrive(double forward, double strafe, double rotate, double time) {
-        double leftFrontPower;
-        double rightFrontPower;
-        double leftBackPower;
-        double rightBackPower;
-
-        leftFrontPower = forward + strafe + rotate;
-        rightFrontPower = forward - strafe - rotate;
-        leftBackPower = forward - strafe + rotate;
-        rightBackPower = forward + strafe - rotate;
-
-        double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
-        max = Math.max(max, Math.abs(leftBackPower));
-        max = Math.max(max, Math.abs(rightBackPower));
-
-        if (max > 1.0) {
-            leftFrontPower /= max;
-            rightFrontPower /= max;
-            leftBackPower /= max;
-            rightBackPower /= max;
-        }
-
-        robot.setDrivePower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
-        sleep((long) (time > 10 ? time : time * 1000));
-        robot.setDrivePower(0, 0, 0, 0);
-    }
 }

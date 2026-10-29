@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import static android.os.SystemClock.sleep;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
 
@@ -108,7 +109,6 @@ public class RobotHardware {
     public void setLeftIntakeServoPower(double power) {
         leftIntakeServo.setPower(power);
     }
-
     public void setRightIntakeServoPower(double power) {
         rightIntakeServo.setPower(power);
     }
@@ -138,5 +138,40 @@ public class RobotHardware {
      */
     public void setWindmillPower(double power) {
         if (windmillServo != null) windmillServo.setPower(power);
+    }
+
+    /**
+     * Move in any direction for a mecanum drivetrain.
+     * @param forward move the robot forward or backward (-1.0 to 1.0)
+     * @param strafe strafe the robot left or right (-1.0 to 1.0)
+     * @param rotate rotate the robot clockwise or anti-clockwise (-1.0 to 1.0)
+     * @param time time to run motors (0.0 to -.-) #TODO change to distance rather than time
+     */
+
+    void mecanumDrive(double forward, double strafe, double rotate, double time) {
+        double leftFrontPower;
+        double rightFrontPower;
+        double leftBackPower;
+        double rightBackPower;
+
+        leftFrontPower = forward + strafe + rotate;
+        rightFrontPower = forward - strafe - rotate;
+        leftBackPower = forward - strafe + rotate;
+        rightBackPower = forward + strafe - rotate;
+
+        double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+        max = Math.max(max, Math.abs(leftBackPower));
+        max = Math.max(max, Math.abs(rightBackPower));
+
+        if (max > 1.0) {
+            leftFrontPower /= max;
+            rightFrontPower /= max;
+            leftBackPower /= max;
+            rightBackPower /= max;
+        }
+
+        setDrivePower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+        sleep((long) (time > 10 ? time : time * 1000));
+        setDrivePower(0, 0, 0, 0);
     }
 }
