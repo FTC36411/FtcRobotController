@@ -61,19 +61,14 @@ public class ElaborateAutonomous extends OpMode {
                 break;
             case LEAVE_STARTING_POSITION:
                 //moves the robot forward
-                robot.setDrivePower(-1.0, -1.0, -1.0, -1.0);
-                sleep(500);
-                robot.setDrivePower(0, 0, 0, 0);
-                sleep(500);
+                robot.mecanumDrive(-1.0, 0.0, 0.0, 0.5);
                 state = State.COLLECT_POLLEN_FROM_FLOWER;
                 break;
             case COLLECT_POLLEN_FROM_FLOWER:
                 //collects pollen from flower
-                mecanumDrive(0.0, -1.0, 0.0, 0.3);
-                sleep(500);
-                mecanumDrive(0.0, 0.0, 0.0, 0.0);
-                sleep(500);
-                mecanumDrive(1.0, 0.0, 0.0, 0.5);
+                robot.mecanumDrive(0.0, -1.0, 0.0, 0.3);
+                robot.mecanumDrive(1.0, 0.0, 0.0, 0.5);
+
                 state = State.MOVE_TO_OTHER_SIDE;
                 break;
             case MOVE_TO_OTHER_SIDE:
