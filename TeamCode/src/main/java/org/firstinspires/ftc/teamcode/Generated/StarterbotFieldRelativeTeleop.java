@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Generated;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -11,6 +12,8 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 /**
  * Field-Relative TeleOp for the StarterBot with controls matching {@link BioBuzzStarterbotTeleopMecanum}.
  */
+
+@Disabled
 @TeleOp(name = "Field Relative StarterBot Teleop", group = "StarterBot")
 public class StarterbotFieldRelativeTeleop extends OpMode {
     private final RobotHardware robot = new RobotHardware();

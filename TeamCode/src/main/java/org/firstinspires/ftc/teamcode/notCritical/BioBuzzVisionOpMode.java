@@ -12,6 +12,7 @@ import static org.firstinspires.ftc.teamcode.notCritical.Subsystems.Constants.fy
 import android.util.Size;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -31,6 +32,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
  * It utilizes some of the code in the Subsystems and Utilities folders.
  */
 
+@Disabled
 @TeleOp(name = "BioBuzz Vision Test")
 public class BioBuzzVisionOpMode extends OpMode {
     WebcamName webcam1;

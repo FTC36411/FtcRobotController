@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.notCritical;
 import static android.os.SystemClock.sleep;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.RobotHardware;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
  * Gains 8 scoring points
  */
 
+@Disabled
 @Autonomous (name = "MoveForwardAndBack")
 public class StarterAutonomous extends OpMode {
     private final RobotHardware robot = new RobotHardware();

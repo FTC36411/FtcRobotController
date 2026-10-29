@@ -4,6 +4,7 @@ import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 /**
  * Field-Relative TeleOp with controls matching {@link StarterbotTeleopWithMods}.
  */
+@Disabled
 @TeleOp(name = "Field Relative Modified Teleop", group = "StarterBot")
 public class StarterbotFieldRelativeTeleopWithMods extends OpMode {
     private final RobotHardware robot = new RobotHardware();
