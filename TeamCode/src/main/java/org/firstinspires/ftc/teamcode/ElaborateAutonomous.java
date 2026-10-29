@@ -73,9 +73,9 @@ public class ElaborateAutonomous extends OpMode {
                 break;
             case MOVE_TO_OTHER_SIDE:
                 //makes the robot move to the other side of the hive
-                robot.mecanumDrive(-1.0,1.0,0.0,0.5);
-                robot.mecanumDrive(-1.0,0.0,0.0,1.0);
-                robot.mecanumDrive(0.0,0.0,);
+                robot.mecanumDrive(-1.0, 1.0, 0.0, 0.5);
+                robot.mecanumDrive(-1.0, 0.0, 0.0, 1.0);
+                robot.mecanumDrive(0.0, 0.0, 1.0, "rotate180");
                 state = State.SHOOT_BALLS_AFTER_TIP;
                 break;
             case SHOOT_BALLS_AFTER_TIP:

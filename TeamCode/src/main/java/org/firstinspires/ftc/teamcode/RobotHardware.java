@@ -169,24 +169,17 @@ public class RobotHardware {
     }
 
     /**
-     * Move in any direction for a mecanum drivetrain.
+     * Move in any direction for a mecanum drivetrain continuously without stopping automatically.
      *
      * @param forward move the robot forward or backward (-1.0 to 1.0)
-     * @param strafe strafe the robot left or right (-1.0 to 1.0)
-     * @param rotate rotate the robot clockwise or anti-clockwise (-1.0 to 1.0)
-     * @param time time to run motors (0.0 to -.-) #TODO change to distance rather than time
+     * @param strafe  strafe the robot left or right (-1.0 to 1.0)
+     * @param rotate  rotate the robot clockwise or anti-clockwise (-1.0 to 1.0)
      */
-
-    void mecanumDrive(double forward, double strafe, double rotate, Optional<double> time) {
-        double leftFrontPower;
-        double rightFrontPower;
-        double leftBackPower;
-        double rightBackPower;
-
-        leftFrontPower = forward + strafe + rotate;
-        rightFrontPower = forward - strafe - rotate;
-        leftBackPower = forward - strafe + rotate;
-        rightBackPower = forward + strafe - rotate;
+    public void mecanumDrive(double forward, double strafe, double rotate) {
+        double leftFrontPower = forward + strafe + rotate;
+        double rightFrontPower = forward - strafe - rotate;
+        double leftBackPower = forward - strafe + rotate;
+        double rightBackPower = forward + strafe - rotate;
 
         double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
         max = Math.max(max, Math.abs(leftBackPower));
@@ -200,7 +193,38 @@ public class RobotHardware {
         }
 
         setDrivePower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
-        if (time.isPresent()) sleep((long) (time > 10 ? time : time * 1000));
+    }
+
+    /**
+     * Move in any direction for a mecanum drivetrain for a set duration.
+     *
+     * @param forward move the robot forward or backward (-1.0 to 1.0)
+     * @param strafe  strafe the robot left or right (-1.0 to 1.0)
+     * @param rotate  rotate the robot clockwise or anti-clockwise (-1.0 to 1.0)
+     * @param time    time to run motors (in seconds or milliseconds)
+     */
+    public void mecanumDrive(double forward, double strafe, double rotate, double time) {
+        mecanumDrive(forward, strafe, rotate);
+        sleep((long) (time > 10 ? time : time * 1000));
         setDrivePower(0, 0, 0, 0);
+    }
+
+    /**
+     * Move in any direction with a string control command (e.g., "stop" to stop motors).
+     *
+     * @param forward       move the robot forward or backward (-1.0 to 1.0)
+     * @param strafe        strafe the robot left or right (-1.0 to 1.0)
+     * @param rotate        rotate the robot clockwise or anti-clockwise (-1.0 to 1.0)
+     * @param stopCondition String condition command (e.g. "stop" to stop motors)
+     */
+    public void mecanumDrive(double forward, double strafe, double rotate, String stopCondition) {
+        if ("rotate180".equalsIgnoreCase(stopCondition)) {
+            while (getHeading() < 180) {
+                mecanumDrive(forward, strafe, rotate);
+            }
+            mecanumDrive(0.0, 0.0, 0.0);
+        } else {
+            mecanumDrive(forward, strafe, rotate);
+        }
     }
 }
