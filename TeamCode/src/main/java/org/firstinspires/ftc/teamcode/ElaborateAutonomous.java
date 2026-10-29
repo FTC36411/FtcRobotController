@@ -69,13 +69,15 @@ public class ElaborateAutonomous extends OpMode {
                 break;
             case COLLECT_POLLEN_FROM_FLOWER:
                 //collects pollen from flower
-                robot.setDrivePower(-1.0, -1.0, -1.0, -1.0);
+                mecanumDrive(0.0, -1.0, 0.0, 0.3);
                 sleep(500);
-                robot.setDrivePower(0, 0, 0, 0);
+                mecanumDrive(0.0,0.0,0.0,0.0);
                 sleep(500);
+                mecanumDrive(1.0,0.0,0.0,);
                 state = State.MOVE_TO_OTHER_SIDE;
                 break;
             case MOVE_TO_OTHER_SIDE:
+                //makes the robot move to the other side of the hive
                 state = State.SHOOT_BALLS_AFTER_TIP;
                 break;
             case SHOOT_BALLS_AFTER_TIP:
@@ -94,5 +96,32 @@ public class ElaborateAutonomous extends OpMode {
     public void loop() {
         robot.setIntakePower(intakePower);
         telemetry.addData("Current State", state);
+    }
+
+    void mecanumDrive(double forward, double strafe, double rotate, double time) {
+        double leftFrontPower;
+        double rightFrontPower;
+        double leftBackPower;
+        double rightBackPower;
+
+        leftFrontPower = forward + strafe + rotate;
+        rightFrontPower = forward - strafe - rotate;
+        leftBackPower = forward - strafe + rotate;
+        rightBackPower = forward + strafe - rotate;
+
+        double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+        max = Math.max(max, Math.abs(leftBackPower));
+        max = Math.max(max, Math.abs(rightBackPower));
+
+        if (max > 1.0) {
+            leftFrontPower /= max;
+            rightFrontPower /= max;
+            leftBackPower /= max;
+            rightBackPower /= max;
+        }
+
+        robot.setDrivePower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+        sleep(time);
+        robot.setDrivePower(0, 0, 0, 0);
     }
 }
