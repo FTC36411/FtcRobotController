@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
  * This code includes basic movement of the robot chassis with one controller
  */
 
-@TeleOp(name = "Robot: Field Relative Mecanum Drive", group = "Robot")
+@TeleOp(name = "Field Relative Mecanum Drive", group = "StarterBot")
 //@Disabled
 public class RobotTeleopMecanumFieldRelativeDrive extends OpMode {
 

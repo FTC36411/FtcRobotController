@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.notCritical;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
  * https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip
  */
 
+@Disabled
 @Autonomous(name="StarterBotAuto (Mecanum)", group="StarterBot")
 public class StarterBotAuto extends OpMode {
     RobotHardware robot = new RobotHardware();
