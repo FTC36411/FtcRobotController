@@ -35,10 +35,10 @@ public class ElaborateAutonomous extends OpMode {
     @Override
     public void init() {
         robot.init(hardwareMap);
-        state = state.START;
+        state = State.START;
         telemetry.addData("Status", "Initialized");
     }
-    
+
     @Override
     public void start() {
         switch (state) {
@@ -71,9 +71,9 @@ public class ElaborateAutonomous extends OpMode {
                 //collects pollen from flower
                 mecanumDrive(0.0, -1.0, 0.0, 0.3);
                 sleep(500);
-                mecanumDrive(0.0,0.0,0.0,0.0);
+                mecanumDrive(0.0, 0.0, 0.0, 0.0);
                 sleep(500);
-                mecanumDrive(1.0,0.0,0.0,);
+                mecanumDrive(1.0, 0.0, 0.0, 0.5);
                 state = State.MOVE_TO_OTHER_SIDE;
                 break;
             case MOVE_TO_OTHER_SIDE:
@@ -121,7 +121,7 @@ public class ElaborateAutonomous extends OpMode {
         }
 
         robot.setDrivePower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
-        sleep(time);
+        sleep((long) (time > 10 ? time : time * 1000));
         robot.setDrivePower(0, 0, 0, 0);
     }
 }
