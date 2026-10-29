@@ -79,9 +79,21 @@ public class ElaborateAutonomous extends OpMode {
                 state = State.SHOOT_BALLS_AFTER_TIP;
                 break;
             case SHOOT_BALLS_AFTER_TIP:
+                // Shoots balls from the position
+                robot.setLauncherVelocity(LAUNCHER_TARGET_VELOCITY);
+
+                // Wait until the launcher reaches the minimum velocity
+                while (robot.getLauncherVelocity() < LAUNCHER_MIN_VELOCITY) {
+                    sleep(1);
+                }
+
+                robot.setWindmillPower(1.0);
+                sleep(3000);
                 state = State.PARK;
                 break;
             case PARK:
+                robot.mecanumDrive(0.0,0.0,1.0,"rotate180");
+                robot.mecanumDrive(1.0,0.0,0.0,2.0);
                 state = State.FINISHED;
                 break;
             default:
