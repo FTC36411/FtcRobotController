@@ -4,12 +4,16 @@ import static android.os.SystemClock.sleep;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 /**
  * Hardware Abstraction Class for the Robot.
@@ -76,6 +80,13 @@ public class RobotHardware {
 
         rightIntakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
         windmillServo.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        RevHubOrientationOnRobot RevOrientation = new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP
+        );
+
+        imu.initialize(new IMU.Parameters(RevOrientation));
     }
 
     /**
@@ -141,7 +152,21 @@ public class RobotHardware {
     }
 
     /**
+     * Gets heading of robot at current time
+     * @return robot heading (degrees)
+     */
+    public double getHeading(
+            //AngleUnit angleUnit
+    ) {
+        return imu.getRobotYawPitchRollAngles().getYaw(
+                //angleUnit
+                AngleUnit.DEGREES
+        );
+    }
+
+    /**
      * Move in any direction for a mecanum drivetrain.
+     *
      * @param forward move the robot forward or backward (-1.0 to 1.0)
      * @param strafe strafe the robot left or right (-1.0 to 1.0)
      * @param rotate rotate the robot clockwise or anti-clockwise (-1.0 to 1.0)
