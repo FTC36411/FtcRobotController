@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
  * Simple autonomous code
  * uses pollen that is in the transition, and pollen in the flower and shoots it to the hive
  * parks back into starting position
- * gets 40 points from tipping the hive twice, and gets 8 swarm points
+ * gets 20 points from tipping the hive once, and gets 8 swarm points
  */
 
 @Autonomous
