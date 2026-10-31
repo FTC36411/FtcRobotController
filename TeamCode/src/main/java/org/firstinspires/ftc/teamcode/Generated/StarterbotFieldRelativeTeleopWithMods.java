@@ -11,13 +11,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.Mechanisms.RobotHardware;
 
 /**
  * Field-Relative TeleOp with controls matching {@link StarterbotTeleopWithMods}.
  */
-@Disabled
+
 @TeleOp(name = "Field Relative Modified Teleop", group = "StarterBot")
+@Disabled
 public class StarterbotFieldRelativeTeleopWithMods extends OpMode {
     private final RobotHardware robot = new RobotHardware();
     private IMU imu;

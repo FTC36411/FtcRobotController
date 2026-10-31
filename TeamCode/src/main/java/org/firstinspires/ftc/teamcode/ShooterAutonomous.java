@@ -5,6 +5,8 @@ import static android.os.SystemClock.sleep;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.Mechanisms.RobotHardware;
+
 /**
  * Basic robot autonomous code.
  * Moves forward, moves backward, and shoots balls.
