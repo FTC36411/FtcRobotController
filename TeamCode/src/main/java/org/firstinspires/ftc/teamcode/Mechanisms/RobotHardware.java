@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
@@ -32,7 +33,10 @@ public class RobotHardware {
     public CRServo leftIntakeServo = null;
     public CRServo rightIntakeServo = null;
     public CRServo windmillServo = null;
+    public Servo windmillPositionalServo = null;
     public IMU imu = null;
+
+    public String initStatus = "OK";
 
     /**
      * Initialize all hardware components from the supplied HardwareMap.
@@ -40,55 +44,93 @@ public class RobotHardware {
      * @param hwMap The HardwareMap instance from the current OpMode.
      */
     public void init(HardwareMap hwMap) {
-        // Fetch devices using centralized hardware names
-        leftFrontDrive = hwMap.get(DcMotor.class, RobotHardwareNames.LEFT_FRONT_DRIVE);
-        rightFrontDrive = hwMap.get(DcMotor.class, RobotHardwareNames.RIGHT_FRONT_DRIVE);
-        leftBackDrive = hwMap.get(DcMotor.class, RobotHardwareNames.LEFT_BACK_DRIVE);
-        rightBackDrive = hwMap.get(DcMotor.class, RobotHardwareNames.RIGHT_BACK_DRIVE);
-        intake = hwMap.get(DcMotor.class, RobotHardwareNames.INTAKE);
-        launcher = hwMap.get(DcMotorEx.class, RobotHardwareNames.LAUNCHER);
-        windmillServo = hwMap.get(CRServo.class, RobotHardwareNames.WINDMILL_SERVO);
-        leftIntakeServo = hwMap.get(CRServo.class, RobotHardwareNames.LEFT_INTAKE_SERVO);
-        rightIntakeServo = hwMap.get(CRServo.class, RobotHardwareNames.RIGHT_INTAKE_SERVO);
-        imu = hwMap.get(IMU.class, RobotHardwareNames.IMU);
+        StringBuilder statusLog = new StringBuilder();
+
+        // Safe hardware retrieval
+        leftFrontDrive = getHardware(hwMap, DcMotor.class, RobotHardwareNames.LEFT_FRONT_DRIVE, statusLog);
+        rightFrontDrive = getHardware(hwMap, DcMotor.class, RobotHardwareNames.RIGHT_FRONT_DRIVE, statusLog);
+        leftBackDrive = getHardware(hwMap, DcMotor.class, RobotHardwareNames.LEFT_BACK_DRIVE, statusLog);
+        rightBackDrive = getHardware(hwMap, DcMotor.class, RobotHardwareNames.RIGHT_BACK_DRIVE, statusLog);
+        intake = getHardware(hwMap, DcMotor.class, RobotHardwareNames.INTAKE, statusLog);
+        launcher = getHardware(hwMap, DcMotorEx.class, RobotHardwareNames.LAUNCHER, statusLog);
+
+        leftIntakeServo = getHardware(hwMap, CRServo.class, RobotHardwareNames.LEFT_INTAKE_SERVO, statusLog);
+        rightIntakeServo = getHardware(hwMap, CRServo.class, RobotHardwareNames.RIGHT_INTAKE_SERVO, statusLog);
+
+        // Windmill Servo: Try CRServo first with "ballrotator" name
+        windmillServo = getHardware(hwMap, CRServo.class, RobotHardwareNames.WINDMILL_SERVO, statusLog);
+        if (windmillServo == null) {
+            // Fallback 1: Check if configured as standard Servo
+            windmillPositionalServo = getHardware(hwMap, Servo.class, RobotHardwareNames.WINDMILL_SERVO, statusLog);
+            if (windmillPositionalServo == null) {
+                // Fallback 2: Check alternative device name "windmill"
+                windmillServo = getHardware(hwMap, CRServo.class, "windmill", statusLog);
+                if (windmillServo == null) {
+                    windmillPositionalServo = getHardware(hwMap, Servo.class, "windmill", statusLog);
+                }
+            }
+        }
+
+        imu = getHardware(hwMap, IMU.class, RobotHardwareNames.IMU, statusLog);
 
         // Motor directions
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        if (leftFrontDrive != null) leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        if (rightFrontDrive != null) rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        if (leftBackDrive != null) leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        if (rightBackDrive != null) rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         // Brake behavior
-        leftFrontDrive.setZeroPowerBehavior(BRAKE);
-        rightFrontDrive.setZeroPowerBehavior(BRAKE);
-        leftBackDrive.setZeroPowerBehavior(BRAKE);
-        rightBackDrive.setZeroPowerBehavior(BRAKE);
-        intake.setZeroPowerBehavior(FLOAT);
+        if (leftFrontDrive != null) leftFrontDrive.setZeroPowerBehavior(BRAKE);
+        if (rightFrontDrive != null) rightFrontDrive.setZeroPowerBehavior(BRAKE);
+        if (leftBackDrive != null) leftBackDrive.setZeroPowerBehavior(BRAKE);
+        if (rightBackDrive != null) rightBackDrive.setZeroPowerBehavior(BRAKE);
+        if (intake != null) intake.setZeroPowerBehavior(FLOAT);
 
         // Run using encoder
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if (leftFrontDrive != null) leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if (leftBackDrive != null) leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if (rightFrontDrive != null) rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if (rightBackDrive != null) rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Launcher setup
-        launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(40, 0, 0, 12.5));
+        if (launcher != null) {
+            launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(40, 0, 0, 12.5));
+        }
 
         // Servo initializations
-        leftIntakeServo.setPower(0);
-        rightIntakeServo.setPower(0);
-        windmillServo.setPower(0);
+        if (leftIntakeServo != null) leftIntakeServo.setPower(0);
+        if (rightIntakeServo != null) {
+            rightIntakeServo.setPower(0);
+            rightIntakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        }
+        if (windmillServo != null) {
+            windmillServo.setPower(0);
+            windmillServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        }
 
-        rightIntakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        windmillServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        if (imu != null) {
+            try {
+                RevHubOrientationOnRobot RevOrientation = new RevHubOrientationOnRobot(
+                        RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                        RevHubOrientationOnRobot.UsbFacingDirection.UP
+                );
+                imu.initialize(new IMU.Parameters(RevOrientation));
+            } catch (Exception e) {
+                statusLog.append("IMU Error: ").append(e.getMessage()).append("\n");
+            }
+        }
 
-        RevHubOrientationOnRobot RevOrientation = new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP
-        );
+        initStatus = statusLog.length() == 0 ? "OK" : statusLog.toString();
+    }
 
-        imu.initialize(new IMU.Parameters(RevOrientation));
+    private <T> T getHardware(HardwareMap hwMap, Class<T> classOrInterface, String name, StringBuilder statusLog) {
+        try {
+            return hwMap.get(classOrInterface, name);
+        } catch (Exception e) {
+            statusLog.append("Missing: ").append(name).append(" (").append(classOrInterface.getSimpleName()).append("); ");
+            return null;
+        }
     }
 
     /**
@@ -122,7 +164,7 @@ public class RobotHardware {
      * @param power Power level (-1.0 to 1.0).
      */
     public void setBroomPower(double power) {
-        intake.setPower(power);
+        if (intake != null) intake.setPower(power);
     }
     /**
      * Set power to the left intake servo.
@@ -130,7 +172,7 @@ public class RobotHardware {
      * @param power Power level (-1.0 to 1.0).
      */
     public void setLeftIntakeServoPower(double power) {
-        leftIntakeServo.setPower(power);
+        if (leftIntakeServo != null) leftIntakeServo.setPower(power);
     }
     /**
      * Set power to the right intake servo.
@@ -138,7 +180,7 @@ public class RobotHardware {
      * @param power Power level (-1.0 to 1.0).
      */
     public void setRightIntakeServoPower(double power) {
-        rightIntakeServo.setPower(power);
+        if (rightIntakeServo != null) rightIntakeServo.setPower(power);
     }
 
     /**
@@ -160,12 +202,18 @@ public class RobotHardware {
     }
 
     /**
-     * Set power for the windmill continuous rotation servo.
+     * Set power/position for the windmill continuous rotation servo or positional servo.
      *
      * @param power Power level (-1.0 to 1.0).
      */
     public void setWindmillPower(double power) {
-        if (windmillServo != null) windmillServo.setPower(power);
+        if (windmillServo != null) {
+            windmillServo.setPower(power);
+        } else if (windmillPositionalServo != null) {
+            // Convert power (-1.0 to 1.0) or (0.0 to 1.0) to servo position (0.0 to 1.0)
+            double position = power <= 0 ? 0.0 : power;
+            windmillPositionalServo.setPosition(position);
+        }
     }
 
     /**
