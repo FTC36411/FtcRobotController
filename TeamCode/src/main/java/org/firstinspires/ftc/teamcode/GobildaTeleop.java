@@ -78,7 +78,7 @@ public class GobildaTeleop extends OpMode {
      * enough to make a successful throw.
      */
     public final int LAUNCHER_TARGET_VELOCITY = 1250; //2678 RPM
-    public final int LAUNCHER_MIN_VELOCITY = 1200; //2571 RPM
+    public final int LAUNCHER_MIN_VELOCITY = 1000; //2142 RPM
 
 
     /*
@@ -132,7 +132,7 @@ public class GobildaTeleop extends OpMode {
          * Note, moving the joystick forward on most gamepads results in a negative signal, so
          * we invert it before passing it to the function.
          */
-        mecanumDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+        robot.mecanumDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
         /*
          * Set the intake power variable to equal the right trigger, minus the left trigger.
@@ -158,13 +158,13 @@ public class GobildaTeleop extends OpMode {
          * variable before we write it to our motor and servos.
          */
 
-        intake.setPower(intakePower);
-        leftIntakeServo.setPower(intakePower);
-        rightIntakeServo.setPower(intakePower);
+        robot.setIntakePower(intakePower);
 
         /*
-         * Show motor powers on the Driver Station via telemetry.
+         * Show motor powers and launcher telemetry on the Driver Station via telemetry.
          */
+        telemetry.addData("Launcher Velocity", robot.getLauncherVelocity());
+        telemetry.addData("Windmill Power", robot.windmillServo != null ? robot.windmillServo.getPower() : 0);
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftFrontPower, rightFrontPower);
         telemetry.addData("Triggers", "left (%.2f, right (%.2f)",gamepad1.left_trigger, gamepad1.right_trigger);
     }
@@ -174,32 +174,6 @@ public class GobildaTeleop extends OpMode {
      */
     @Override
     public void stop() {
-    }
-
-    void mecanumDrive(double forward, double strafe, double rotate) {
-        leftFrontPower = forward + strafe + rotate;
-        rightFrontPower = forward - strafe - rotate;
-        leftBackPower = forward - strafe + rotate;
-        rightBackPower = forward + strafe - rotate;
-
-        double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
-        max = Math.max(max, Math.abs(leftBackPower));
-        max = Math.max(max, Math.abs(rightBackPower));
-
-        if (max > 1.0) {
-            leftFrontPower /= max;
-            rightFrontPower /= max;
-            leftBackPower /= max;
-            rightBackPower /= max;
-        }
-
-        /*
-         * Send calculated power to wheels
-         */
-        leftFrontDrive.setPower(leftFrontPower);
-        rightFrontDrive.setPower(rightFrontPower);
-        leftBackDrive.setPower(leftBackPower);
-        rightBackDrive.setPower(rightBackPower);
     }
 
     void launch() {
@@ -212,23 +186,22 @@ public class GobildaTeleop extends OpMode {
          * Otherwise, we start spinning the launcher down.
          */
         if (gamepad1.right_bumper) {
-            launcher.setVelocity(LAUNCHER_TARGET_VELOCITY);
+            robot.setLauncherVelocity(LAUNCHER_TARGET_VELOCITY);
         } else {
-            launcher.setVelocity(0);
+            robot.setLauncherVelocity(0.0);
         }
 
         /*
-         * Here we ask if the driver is currently pressing the right bumper, AND the launcher is
-         * spinning fast enough to make a successful shot. If it is, then we will turn on the
-         * windmill servo to start feeding the elements into the launcher motor. We also
-         * add some power to the intake power. This can sometimes help dislodge stuck elements from
-         * inside the hopper.
+         * Here we check if the driver is pressing the right bumper AND the launcher is
+         * spinning fast enough (using Math.abs for signed velocity), or if a manual override
+         * button (left bumper or A button) is pressed.
          */
-        if (gamepad1.right_bumper && launcher.getVelocity() > LAUNCHER_MIN_VELOCITY) {
-            windmillServo.setPower(1);
+        boolean launcherIsUpToSpeed = Math.abs(robot.getLauncherVelocity()) >= LAUNCHER_MIN_VELOCITY;
+        if ((gamepad1.right_bumper && launcherIsUpToSpeed) || gamepad1.left_bumper || gamepad1.a) {
+            robot.setWindmillPower(1);
             intakePower += 0.5;
         } else {
-            windmillServo.setPower(0);
+            robot.setWindmillPower(0);
         }
     }
 }
