@@ -18,7 +18,7 @@ public class ShooterAutonomous extends OpMode {
     private final RobotHardware robot = new RobotHardware();
 
     public final int LAUNCHER_TARGET_VELOCITY = 1250; //2678 RPM
-    public final int LAUNCHER_MIN_VELOCITY = 800; //2571 RPM //1200
+    public final int LAUNCHER_MIN_VELOCITY = 1240; //2571 RPM //1200
     public double intakePower = 1.0;
 
     @Override

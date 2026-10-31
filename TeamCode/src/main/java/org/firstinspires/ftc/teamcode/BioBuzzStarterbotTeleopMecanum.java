@@ -21,7 +21,7 @@ public class BioBuzzStarterbotTeleopMecanum extends OpMode {
     private final RobotHardware robot = new RobotHardware();
 
     public final int LAUNCHER_TARGET_VELOCITY = 1250;
-    public final int LAUNCHER_MIN_VELOCITY = 1000;
+    public final int LAUNCHER_MIN_VELOCITY = 1240;
 
     double leftFrontPower;
     double rightFrontPower;
@@ -66,7 +66,7 @@ public class BioBuzzStarterbotTeleopMecanum extends OpMode {
         // Run windmill / feeding mechanism when launcher is up to speed (using Math.abs for velocity direction),
         // or allow manual override using right bumper or A button
         boolean launcherIsUpToSpeed = Math.abs(robot.getLauncherVelocity()) >= LAUNCHER_MIN_VELOCITY;
-        if ((gamepad1.left_bumper && launcherIsUpToSpeed) || gamepad1.right_bumper || gamepad1.a) {
+        if ((gamepad1.left_bumper && launcherIsUpToSpeed)) {
             robot.setWindmillPower(1.0);
         } else {
             robot.setWindmillPower(0.0);
